@@ -1,0 +1,104 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Definition for a hash set node
+struct HashSetNode {
+    int key;
+    struct HashSetNode* next;
+};
+
+// Function to create a new hash set node
+struct HashSetNode* createHashSetNode(int key) {
+    struct HashSetNode* newNode = (struct HashSetNode*)malloc(sizeof(struct HashSetNode));
+    newNode->key = key;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Function to insert a key into the hash set
+void insert(struct HashSetNode** hashSet, int key) {
+    struct HashSetNode* newNode = createHashSetNode(key);
+    newNode->next = *hashSet;
+    *hashSet = newNode;
+}
+
+// Function to check if a key exists in the hash set
+int contains(struct HashSetNode* hashSet, int key) {
+    struct HashSetNode* current = hashSet;
+    while (current != NULL) {
+        if (current->key == key)
+            return 1; // Key found
+        current = current->next;
+    }
+    return 0; // Key not found
+}
+
+// Function to free memory allocated for hash set nodes
+void freeHashSet(struct HashSetNode* hashSet) {
+    struct HashSetNode* current = hashSet;
+    while (current != NULL) {
+        struct HashSetNode* temp = current;
+        current = current->next;
+        free(temp);
+    }
+}
+
+// Function to find the intersection of two arrays
+int* intersection(int* nums1, int nums1Size, int* nums2, int nums2Size, int* returnSize) {
+    // Create a hash set to store elements of nums1
+    struct HashSetNode* hashSet = NULL;
+
+    // Insert elements of nums1 into the hash set
+    for (int i = 0; i < nums1Size; i++) {
+        insert(&hashSet, nums1[i]);
+    }
+
+    // Create a dynamic array to store the intersection elements
+    int* intersectionArray = (int*)malloc(nums2Size * sizeof(int));
+    int count = 0;
+
+    // Check for intersection with elements of nums2
+    for (int i = 0; i < nums2Size; i++) {
+        if (contains(hashSet, nums2[i])) {
+            // If the element exists in nums1, add it to the intersection array
+            intersectionArray[count++] = nums2[i];
+            // Remove the element from nums1 to ensure uniqueness in the intersection array
+            // This step is optional depending on the requirement
+            for (int j = 0; j < nums1Size; j++) {
+                if (nums1[j] == nums2[i]) {
+                    nums1[j] = nums1[nums1Size - 1];
+                    nums1Size--;
+                    break;
+                }
+            }
+        }
+    }
+
+    // Free memory allocated for the hash set
+    freeHashSet(hashSet);
+
+    // Set the size of the intersection array and return it
+    *returnSize = count;
+    return intersectionArray;
+}
+
+int main() {
+    int nums1[] = {1, 2, 2, 1};
+    int nums1Size = sizeof(nums1) / sizeof(nums1[0]);
+    int nums2[] = {2, 2};
+    int nums2Size = sizeof(nums2) / sizeof(nums2[0]);
+
+    int returnSize;
+    int* result = intersection(nums1, nums1Size, nums2, nums2Size, &returnSize);
+
+    printf("Intersection: ");
+    for (int i = 0; i < returnSize; i++) {
+        printf("%d ", result[i]);
+    }
+    printf("\n");
+
+    // Free memory allocated for the intersection array
+    free(result);
+
+    return 0;
+}
