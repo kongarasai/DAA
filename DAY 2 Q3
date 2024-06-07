@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+ int* generate_random_array(int size) {
+    int* arr = (int*)malloc(size * sizeof(int));
+    for (int i = 0; i < size; i++) {
+        arr[i] = rand() % 100 
+    }
+    return arr;
+}
+
+  int linear_search(int arr[], int size, int key) {
+    for (int i = 0; i < size; i++) {
+        if (arr[i] == key) {
+            return i;  
+        }
+    }
+    return -1;  
+}
+
+ void bubble_sort(int arr[], int size) {
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = 0; j < size - i - 1; j++) {
+            if (arr[j] > arr[j + 1]) {
+                 int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+int main() {
+    srand(time(NULL));  
+
+    int size = 10000;  
+    int key = rand() % 100;  
+    int* arr = generate_random_array(size);  
+
+     clock_t start_linear = clock();
+    int linear_result = linear_search(arr, size, key);
+    clock_t end_linear = clock();
+    double time_taken_linear = ((double)(end_linear - start_linear)) / CLOCKS_PER_SEC;
+
+     clock_t start_bubble = clock();
+    bubble_sort(arr, size);
+    clock_t end_bubble = clock();
+    double time_taken_bubble = ((double)(end_bubble - start_bubble)) / CLOCKS_PER_SEC;
+
+    printf("Time taken for Linear Search: %f seconds\n", time_taken_linear);
+    printf("Time taken for Bubble Sort: %f seconds\n", time_taken_bubble);
+
+    free(arr);  
+    return 0;
+}
