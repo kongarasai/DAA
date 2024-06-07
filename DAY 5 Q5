@@ -1,0 +1,19 @@
+#include <stdio.h>
+
+ int master_theorem(int n) {
+    if (n == 1)
+        return 1;
+    else
+        return 2 * master_theorem(n / 2) + n;
+}
+
+int main() {
+    int n;
+    printf("Enter the value of n: ");
+    scanf("%d", &n);
+
+    int complexity = master_theorem(n);
+    printf("Time complexity using Master Theorem: T(n) = O(n log n)\n");
+
+    return 0;
+}
