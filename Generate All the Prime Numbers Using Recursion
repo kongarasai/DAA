@@ -1,0 +1,18 @@
+def is_prime(num, i=2):
+    if num <= 2:
+        return num == 2
+    if num % i == 0:
+        return False
+    if i * i > num:
+        return True
+    return is_prime(num, i + 1)
+
+def generate_primes(n):
+    if n > 1:
+        generate_primes(n - 1)
+        if is_prime(n):
+            print(n)
+
+upper_limit = int(input("Enter the upper limit: "))
+print("Prime numbers up to", upper_limit, "are:")
+generate_primes(upper_limit)
