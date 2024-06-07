@@ -1,0 +1,8 @@
+def find_largest(arr):
+    if len(arr) == 1:
+        return arr[0]
+    else:
+        return max(arr[0], find_largest(arr[1:]))
+
+arr = [int(x) for x in input("Enter the array elements separated by space: ").split()]
+print("The largest element in the array is:", find_largest(arr))
