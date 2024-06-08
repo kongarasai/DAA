@@ -7,7 +7,7 @@ def checkIfCanBreak(s1, s2):
     
     return canBreak(s1_sorted, s2_sorted) or canBreak(s2_sorted, s1_sorted)
 
-# Example
+
 s1 = "abc"
 s2 = "xya"
 print(checkIfCanBreak(s1, s2))  
