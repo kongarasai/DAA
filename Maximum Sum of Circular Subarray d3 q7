@@ -1,0 +1,24 @@
+def maxSubarraySumCircular(nums):
+    def kadane(arr):
+        current_sum = max_sum = arr[0]
+        for num in arr[1:]:
+            current_sum = max(num, current_sum + num)
+            max_sum = max(max_sum, current_sum)
+        return max_sum
+    
+    total_sum = sum(nums)
+    max_kadane = kadane(nums)
+    
+    inverted_nums = [-num for num in nums]
+    max_inverted_kadane = kadane(inverted_nums)
+    max_wraparound = total_sum + max_inverted_kadane
+    
+    if max_wraparound == 0:
+        return max_kadane
+    
+    return max(max_kadane, max_wraparound)
+
+nums = [5, -3, 5]
+print(maxSubarraySumCircular(nums))  
+
+Output: 10
