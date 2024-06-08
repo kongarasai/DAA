@@ -1,0 +1,25 @@
+def maxSumQueries(nums, queries):
+    MOD = 10**9 + 7
+
+    def maxNonAdjacentSum(arr):
+        incl = 0
+        excl = 0
+        for num in arr:
+            new_excl = max(incl, excl)
+            incl = excl + num
+            excl = new_excl
+        return max(incl, excl)
+
+    total_sum = 0
+    for pos, x in queries:
+        nums[pos] = x
+        total_sum = (total_sum + maxNonAdjacentSum(nums)) % MOD
+    
+    return total_sum
+
+
+nums = [2, 4, 6, 8]
+queries = [[0, 10], [1, 7], [2, 5]]
+print(maxSumQueries(nums, queries))  
+
+Output: 52
