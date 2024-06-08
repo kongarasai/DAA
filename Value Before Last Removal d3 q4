@@ -1,0 +1,15 @@
+def valueBeforeLastRemoval(s):
+    from string import ascii_lowercase
+    
+    while True:
+        prev_s = s
+        for c in ascii_lowercase:
+            s = s.replace(c, '', 1)
+        if len(s) == 0:
+            return prev_s
+
+
+s = "aabcbbca"
+print(valueBeforeLastRemoval(s))  
+          
+          Output: "ba
