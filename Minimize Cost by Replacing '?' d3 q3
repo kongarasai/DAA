@@ -1,0 +1,21 @@
+def minimizeCost(s):
+    import collections
+    frequency = collections.Counter()
+    res = []
+    
+    for char in s:
+        if char == '?':
+            min_char = min((chr(c) for c in range(ord('a'), ord('z') + 1)), key=lambda x: frequency[x])
+            res.append(min_char)
+            frequency[min_char] += 1
+        else:
+            res.append(char)
+            frequency[char] += 1
+    
+    return ''.join(res)
+
+
+s = "a?b?c?d"
+print(minimizeCost(s))  
+
+Output could be: "aabacada"
